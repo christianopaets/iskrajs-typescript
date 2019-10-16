@@ -1,15 +1,15 @@
 import { HttpController } from './http.controller';
 
-export class TemperatureControler {
-  private readonly _httpController = new HttpController();
+export class RemoteController {
+    private readonly _httpController = new HttpController();
 
-  save(temperature: any) {
+    save(remote: string) {
     const data = {
-      value: temperature
+      remote: remote
     };
 
     this._httpController
-      .post('/api/temperature', data)
+      .post('/api/remote', data)
       .then(res => {
         console.log(res);
       })

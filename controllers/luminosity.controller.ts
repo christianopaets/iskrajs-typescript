@@ -1,15 +1,15 @@
 import { HttpController } from './http.controller';
 
-export class TemperatureControler {
-  private readonly _httpController = new HttpController();
+export class LuminosityController {
+    private readonly _httpController = new HttpController();
 
-  save(temperature: any) {
+    save(luminosity: number) {
     const data = {
-      value: temperature
+      value: luminosity
     };
 
     this._httpController
-      .post('/api/temperature', data)
+      .post('/api/luminosity', data)
       .then(res => {
         console.log(res);
       })

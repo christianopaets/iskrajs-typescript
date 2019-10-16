@@ -7,7 +7,7 @@ export class LightSensor {
     this._pin.mode('analog');
   }
 
-  read(units: string) {
+  read(units: string): number {
     var val = analogRead(this._pin);
     if (typeof units === 'undefined') {
       return val;
@@ -28,5 +28,7 @@ export class LightSensor {
           )
         );
     }
+    
+    return val;
   }
 }
