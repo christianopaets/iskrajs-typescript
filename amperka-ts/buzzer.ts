@@ -1,7 +1,5 @@
-declare function analogWrite(pin: any, value: number, data: any): void;
-
 export class Buzzer {
-  private _pin: any;
+  private _pin: Pin;
   private _on: boolean = false;
   private _frequency: number = 2000;
 
@@ -9,7 +7,7 @@ export class Buzzer {
   private _beepOnTime: number = 0;
   private _beepOffTime: number = 0;
 
-  constructor(pin: any) {
+  constructor(pin: Pin) {
     this._pin = pin;
     this._pin.mode('output');
   }

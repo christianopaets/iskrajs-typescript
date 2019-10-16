@@ -9,7 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "^12.11.1",
     "http": "0.0.0"
+  },
+  "devDependencies": {
+    "@types/espruino": "^1.94.3",
+    "@types/node": "^12.11.1",
   }
 }

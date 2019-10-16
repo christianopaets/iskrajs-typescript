@@ -1,8 +1,8 @@
 import { TLightSensorConstants } from './../enums/light-sensor-constants.enum';
 export class LightSensor {
-  private _pin: any;
+  private _pin: Pin;
 
-  constructor(pin: any) {
+  constructor(pin: Pin) {
     this._pin = pin;
     this._pin.mode('analog');
   }

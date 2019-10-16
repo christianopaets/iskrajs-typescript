@@ -1,7 +1,7 @@
 export class Thermometer {
-  private _pin: any;
+  private _pin: Pin;
 
-  constructor(pin: any) {
+  constructor(pin: Pin) {
     this._pin = pin;
     this._pin.mode('analog');
   }

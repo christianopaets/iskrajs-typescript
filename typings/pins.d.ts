@@ -1,0 +1,1 @@
+declare const P8: Pin;
