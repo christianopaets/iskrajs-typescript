@@ -1,6 +1,5 @@
 import { Server } from './amperka-ts/server';
 import { Buzzer } from './amperka-ts/buzzer';
-import { IncomingMessage, ServerResponse } from 'http';
 
 const buzzer = new Buzzer(P8);
 

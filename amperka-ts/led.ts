@@ -1,49 +1,51 @@
-var Led = function(pin) {
-  this._pin = pin;
-  this._on = false;
-  this._brightness = 1.0;
+export class Led {
+  private _pin: Pin;
+  private _on: boolean = false;
+  private _brightness: number = 1.0;
 
-  this._blinkTimeoutID = null;
-  this._blinkOnTime = 0;
-  this._blinkOffTime = 0;
+  private _blinkTimeoutID: NodeJS.Timeout = null;
+  private _blinkOnTime: number = 0;
+  private _blinkOffTime: number = 0;
 
-  this._pin.mode('output');
-};
+  constructor (pin: Pin) {
+      this._pin = pin;
+      this._pin.mode('output');
+  }
 
-Led.prototype.toggle = function() {
-  if (arguments.length === 0) {
+toggle(state?: boolean) {
+  if (!state) {
     return this.toggle(!this._on);
   }
 
   this._clearBlink();
   this._blinkOnTime = 0;
   this._blinkOffTime = 0;
-  this._on = !!arguments[0];
+  this._on = state;
   this._update();
 
   return this;
 };
 
-Led.prototype.turnOn = function() {
+turnOn() {
   return this.toggle(true);
 };
 
-Led.prototype.turnOff = function() {
+turnOff() {
   return this.toggle(false);
 };
 
-Led.prototype.isOn = function() {
+isOn() {
   return this._on;
 };
 
-Led.prototype._clearBlink = function() {
+_clearBlink() {
   if (this._blinkTimeoutID) {
     clearTimeout(this._blinkTimeoutID);
     this._blinkTimeoutID = null;
   }
 };
 
-Led.prototype._blinkOn = function() {
+_blinkOn() {
   this._on = true;
   this._update();
   this._blinkTimeoutID = setTimeout(
@@ -52,7 +54,7 @@ Led.prototype._blinkOn = function() {
   );
 };
 
-Led.prototype._blinkOff = function() {
+_blinkOff() {
   this._on = false;
   this._update();
 
@@ -66,7 +68,7 @@ Led.prototype._blinkOff = function() {
   }
 };
 
-Led.prototype.blink = function(onTime, offTime) {
+blink(onTime, offTime) {
   if (
     this._blinkOnTime === onTime &&
     this._blinkOffTime &&
@@ -86,7 +88,7 @@ Led.prototype.blink = function(onTime, offTime) {
   }
 };
 
-Led.prototype.brightness = function(value) {
+brightness(value) {
   if (arguments.length === 0) {
     return this._brightness;
   }
@@ -98,15 +100,14 @@ Led.prototype.brightness = function(value) {
   return this;
 };
 
-Led.prototype._update = function() {
+_update() {
   var b = this._brightness;
   if (b > 0 && b < 1.0) {
-    analogWrite(this._pin, b * b * b * this._on, { freq: 100 });
+    analogWrite(this._pin, this._on ? b * b * b : 0, { freq: 100 });
   } else {
     digitalWrite(this._pin, this._on);
   }
 };
 
-exports.connect = function(pin) {
-  return new Led(pin);
-};
+
+}
