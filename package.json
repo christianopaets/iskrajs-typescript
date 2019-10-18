@@ -5,17 +5,21 @@
   "main": "index.js",
   "author": "",
   "license": "ISC",
+  "scripts": {
+    "build": "gulp build"
+  },
   "dependencies": {
-    "@types/espruino": "^1.94.3",
-    "@types/node": "^12.11.1",
-    "espruino": "0.0.36",
-    "gulp": "^4.0.2",
-    "gulp-typescript": "^3.2.3",
-    "js-yaml": "^3.13.1",
     "lodash-es": "^4.17.15",
     "rxjs": "^6.5.3"
   },
   "devDependencies": {
-    "typescript": "^3.6.4"
+    "lodash": "^4.17.15",
+    "typescript": "^3.6.4",
+    "js-yaml": "^3.13.1",
+    "@types/espruino": "^1.94.3",
+    "@types/node": "^12.11.1",
+    "espruino": "0.0.36",
+    "gulp": "^4.0.2",
+    "gulp-typescript": "^3.2.3"
   }
 }

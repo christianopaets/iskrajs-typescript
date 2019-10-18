@@ -1,5 +1,5 @@
 import { LightSensor } from '@amperka/light-sensor';
-import { config } from '../../config';
+import { config } from '../config';
 import { Thermometer } from '@amperka/thermometer';
 import { LuminosityController } from './luminosity.controller';
 import { RemoteController } from './remote.controller';
