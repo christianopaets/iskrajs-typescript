@@ -1,4 +1,4 @@
-import { TLightSensorConstants } from './../enums/light-sensor-constants.enum';
+import { TLightSensorConstants } from '@enums/light-sensor-constants.enum';
 export class LightSensor {
   private _pin: Pin;
 

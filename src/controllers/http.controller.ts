@@ -1,4 +1,4 @@
-import { THttpMethod } from './../enums/http-method.enum';
+import { THttpMethod } from '@enums/http-method.enum';
 import * as http from 'http';
 
 export class HttpController {
