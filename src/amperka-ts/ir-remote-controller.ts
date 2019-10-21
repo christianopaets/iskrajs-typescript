@@ -1,4 +1,4 @@
-var KEY_CODES = {
+export const KEY_CODES = Object.freeze({
   POWER: 378130479,
   MINUS: 378134559,
   PLUS: 378132519,
@@ -20,6 +20,4 @@ var KEY_CODES = {
   X: 378089679,
   Y: 378122319,
   Z: 378105999
-};
-
-exports = KEY_CODES;
+});

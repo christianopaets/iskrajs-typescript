@@ -12,7 +12,7 @@
     "paths": {
       "@controllers/*": ["controllers/*"],
       "@enums/*": ["enums/*"],
-      "@amperka/*": ["amperka-ts/*"],
+      "@amperka/*": ["amperka-ts/*"]
     },
     "typeRoots": [
       "./node_modules/@types"

@@ -1,5 +1,5 @@
 export class Buzzer {
-  private _pin: Pin;
+  private readonly _pin: Pin;
   private _on: boolean = false;
   private _frequency: number = 2000;
 

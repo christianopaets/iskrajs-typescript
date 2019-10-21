@@ -1,6 +1,6 @@
 import { TLightSensorConstants } from '@enums/light-sensor-constants.enum';
 export class LightSensor {
-  private _pin: Pin;
+  private readonly _pin: Pin;
 
   constructor(pin: Pin) {
     this._pin = pin;

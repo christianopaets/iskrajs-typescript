@@ -1,5 +1,5 @@
 export class Led {
-  private _pin: Pin;
+  private readonly _pin: Pin;
   private _on: boolean = false;
   private _brightness: number = 1.0;
 
