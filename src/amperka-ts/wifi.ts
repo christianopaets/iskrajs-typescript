@@ -4,7 +4,7 @@ var sockData = ['', '', '', '', ''];
 var MAXSOCKETS = 5;
 var ENCR_FLAGS = ['open', 'wep', 'wpa_psk', 'wpa2_psk', 'wpa_wpa2_psk'];
 
-export class WifiCallback {
+export class WifiCallback extends NodeJS.EventEmitter {
   create(host: string, port: string): number {
     /* Create a socket and return its index, host is a string, port is an integer.
     If host isn't defined, create a server socket */
@@ -14,7 +14,7 @@ export class WifiCallback {
       sckt = MAXSOCKETS;
       socks[sckt] = 'Wait';
       sockData[sckt] = '';
-      at.cmd('AT+CIPSERVER=1,' + port + '\r\n', 10000, function(d) {
+      at.cmd('AT+CIPSERVER=1,' + port + '\r\n', 10000, (d) => {
         if (d === 'OK') {
           socks[sckt] = true;
         } else {
@@ -22,7 +22,7 @@ export class WifiCallback {
           // setTimeout(function() {
           //   throw new Error('CIPSERVER failed ('+(d?d:'Timeout')+')');
           // }, 0);
-          self.emit('err', 'CIPSERVER failed (' + (d ? d : 'Timeout') + ')');
+          this.emit('err', 'CIPSERVER failed (' + (d ? d : 'Timeout') + ')');
         }
       });
       return MAXSOCKETS;
