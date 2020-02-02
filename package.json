@@ -10,16 +10,17 @@
   },
   "dependencies": {
     "lodash-es": "^4.17.15",
-    "rxjs": "^6.5.3"
+    "rxjs": "^6.5.3",
+    "typedi": "^0.8.0"
   },
   "devDependencies": {
-    "lodash": "^4.17.15",
-    "typescript": "^3.6.4",
-    "js-yaml": "^3.13.1",
     "@types/espruino": "^1.94.3",
     "@types/node": "^12.11.1",
     "espruino": "0.0.36",
     "gulp": "^4.0.2",
-    "gulp-typescript": "^3.2.3"
+    "gulp-typescript": "^3.2.3",
+    "js-yaml": "^3.13.1",
+    "lodash": "^4.17.15",
+    "typescript": "^3.6.4"
   }
 }
