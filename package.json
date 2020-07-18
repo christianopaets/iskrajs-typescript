@@ -13,7 +13,7 @@
     "rxjs": "^6.5.3"
   },
   "devDependencies": {
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "typescript": "^3.6.4",
     "js-yaml": "^3.13.1",
     "@types/espruino": "^1.94.3",
