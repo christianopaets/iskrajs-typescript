@@ -1,6 +1,6 @@
 // import * as wifi from '../../amperka/wifi.js';
 
-export class WifiController {
+export class WifiService {
 
   private _ssid: string;
 

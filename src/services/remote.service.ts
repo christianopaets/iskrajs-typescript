@@ -1,7 +1,7 @@
-import { HttpController } from './http.controller';
+import { HttpService } from './http.service';
 
-export class RemoteController {
-    private readonly _httpController = new HttpController();
+export class RemoteService {
+    private readonly _httpController = new HttpService();
 
     save(remote: string) {
     const data = {

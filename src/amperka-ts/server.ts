@@ -29,6 +29,7 @@ export class Server {
 
   private _event(eventName: string, req: UrlWithParsedQuery, res: ServerResponse) {
     if (this._events[eventName]) {
+      // @ts-ignore
       res.send = (content: any, headers: OutgoingHttpHeaders) => {
         if (headers === undefined) {
           res.writeHead(200, { 'Content-Type': 'text/html' });

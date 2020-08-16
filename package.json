@@ -6,21 +6,36 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "build": "gulp build"
+    "build": "webpack --config webpack.config.ts",
+    "watch": "webpack --config webpack.config.ts --watch",
+    "analyze": "webpack --profile --json > stats.json",
+    "espruino": "espruino -w -p /dev/tty.usbmodem00000000001A1 ./dist/index.js"
   },
   "dependencies": {
     "lodash-es": "^4.17.15",
-    "rxjs": "^6.5.3",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^6.6.2",
     "typedi": "^0.8.0"
   },
   "devDependencies": {
     "@types/espruino": "^1.94.3",
-    "@types/node": "^12.11.1",
-    "espruino": "0.0.36",
+    "@types/lodash": "^4.14.159",
+    "@types/node": "^14.0.27",
+    "@types/uglifyjs-webpack-plugin": "^1.1.0",
+    "@types/webpack": "^4.41.21",
+    "@types/webpack-bundle-analyzer": "^3.8.0",
+    "espruino": "^0.1.31",
     "gulp": "^4.0.2",
-    "gulp-typescript": "^3.2.3",
-    "js-yaml": "^3.13.1",
-    "lodash": "^4.17.15",
-    "typescript": "^3.6.4"
+    "gulp-typescript": "^5.0.1",
+    "js-yaml": "^3.14.0",
+    "lodash": "^4.17.20",
+    "ts-loader": "^8.0.2",
+    "ts-node": "^8.10.2",
+    "tsconfig-paths-webpack-plugin": "^3.3.0",
+    "typescript": "^3.9.7",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.44.1",
+    "webpack-bundle-analyzer": "^3.8.0",
+    "webpack-cli": "^3.3.12"
   }
 }

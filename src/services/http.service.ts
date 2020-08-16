@@ -1,7 +1,7 @@
 import { THttpMethod } from '@enums/http-method.enum';
 import * as http from 'http';
 
-export class HttpController {
+export class HttpService {
   private readonly _host: string = 'smart-home-back.herokuapp.com';
 
   private _http = http;

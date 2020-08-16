@@ -23,7 +23,7 @@ export class Accelerometer {
     return this._i2c.readFrom(this._address, count);
   };
 
-  init(opts) {
+  init(opts: any) {
     // Normal power, 50Hz, enable X, Y, Z;
     let config20 = 0x27; /* 00100111 */
     if (opts !== undefined && opts.frequency !== undefined) {

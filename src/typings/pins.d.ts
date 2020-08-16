@@ -11,3 +11,5 @@ declare const P8: Pin;
 declare const A1: Pin;
 declare const A2: Pin;
 declare const A3: Pin;
+declare const A4: Pin;
+declare const A5: Pin;

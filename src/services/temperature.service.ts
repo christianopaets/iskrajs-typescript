@@ -1,7 +1,7 @@
-import { HttpController } from './http.controller';
+import { HttpService } from './http.service';
 
 export class TemperatureControler {
-  private readonly _httpController = new HttpController();
+  private readonly _httpController = new HttpService();
 
   save(temperature: any) {
     const data = {

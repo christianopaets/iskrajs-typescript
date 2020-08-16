@@ -6,8 +6,6 @@
       "es2015",
       "dom"
     ],
-    "outDir": "tst-dist",
-    "strict": true,
     "baseUrl": "src",
     "paths": {
       "@controllers/*": ["controllers/*"],

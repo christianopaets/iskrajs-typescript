@@ -1,9 +1,10 @@
 export class Led {
+
   private readonly _pin: Pin;
   private _on: boolean = false;
   private _brightness: number = 1.0;
 
-  private _blinkTimeoutID: NodeJS.Timeout | null = null;
+  private _blinkTimeoutID: NodeJS.Timeout;
   private _blinkOnTime: number = 0;
   private _blinkOffTime: number = 0;
 
@@ -33,8 +34,8 @@ export class Led {
     this.toggle(false);
   }
 
-  isOn(): void {
-    this._on;
+  isOn(): boolean {
+    return this._on;
   }
 
   _clearBlink(): void {
@@ -47,7 +48,7 @@ export class Led {
   _blinkOn(): void {
     this._on = true;
     this._update();
-    this._blinkTimeoutID = setTimeout(
+    this._blinkTimeoutID = global.setTimeout(
       this._blinkOff.bind(this),
       this._blinkOnTime * 1000
     );
@@ -58,7 +59,7 @@ export class Led {
     this._update();
 
     if (this._blinkOffTime) {
-      this._blinkTimeoutID = setTimeout(
+      this._blinkTimeoutID = global.setTimeout(
         this._blinkOn.bind(this),
         this._blinkOffTime * 1000
       );
@@ -98,7 +99,7 @@ export class Led {
   }
 
   _update(): void {
-    var b = this._brightness;
+    const b = this._brightness;
     if (b > 0 && b < 1.0) {
       analogWrite(this._pin, this._on ? b * b * b : 0, {freq: 100});
     } else {

@@ -1,7 +1,7 @@
-import { HttpController } from './http.controller';
+import { HttpService } from './http.service';
 
-export class LuminosityController {
-    private readonly _httpController = new HttpController();
+export class LuminosityService {
+    private readonly _httpController = new HttpService();
 
     save(luminosity: number) {
     const data = {
