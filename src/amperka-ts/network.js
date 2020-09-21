@@ -372,7 +372,7 @@ var ESP8266 = {
     }
 };
 
-export function setup = (usart, connectedCallback) {
+export function setup(usart, connectedCallback) {
     if (typeof usart === 'function') {
         connectedCallback = usart;
         usart = PrimarySerial;
@@ -382,7 +382,7 @@ export function setup = (usart, connectedCallback) {
     ESP8266.at = at = require('AT').connect(usart);
     require('NetworkJS').create(netCallbacks);
 
-    netCallbacks.on('err', function(e) {
+    netCallbacks.on('err', function (e) {
         ESP8266.emit('err', e);
     });
 
@@ -391,4 +391,4 @@ export function setup = (usart, connectedCallback) {
     ESP8266.reset(connectedCallback);
 
     return ESP8266;
-};
+}

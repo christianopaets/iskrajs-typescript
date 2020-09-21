@@ -81,6 +81,6 @@ CardReader.prototype.writeFile = function(fileName, data) {
   return this._fs.writeFile(fileName, data);
 };
 
-exports.connect = function(opts) {
+export function connect(opts) {
   return new CardReader(opts);
 };

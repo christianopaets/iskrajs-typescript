@@ -1,11 +1,12 @@
-// var at;
+// import * as events from 'events';
+//
 // var socks = [];
 // var sockData = ['', '', '', '', ''];
 // var MAXSOCKETS = 5;
 // var ENCR_FLAGS = ['open', 'wep', 'wpa_psk', 'wpa2_psk', 'wpa_wpa2_psk'];
 //
-// export class WifiCallback extends NodeJS.EventEmitter {
-//   create(host: string, port: string): number {
+// var netCallbacks: any = {
+//   create: function (host, port) {
 //     /* Create a socket and return its index, host is a string, port is an integer.
 //     If host isn't defined, create a server socket */
 //     var sckt;
@@ -14,15 +15,12 @@
 //       sckt = MAXSOCKETS;
 //       socks[sckt] = 'Wait';
 //       sockData[sckt] = '';
-//       at.cmd('AT+CIPSERVER=1,' + port + '\r\n', 10000, (d) => {
+//       at.cmd('AT+CIPSERVER=1,' + port + '\r\n', 10000, function (d) {
 //         if (d === 'OK') {
 //           socks[sckt] = true;
 //         } else {
 //           socks[sckt] = undefined;
-//           // setTimeout(function() {
-//           //   throw new Error('CIPSERVER failed ('+(d?d:'Timeout')+')');
-//           // }, 0);
-//           this.emit('err', 'CIPSERVER failed (' + (d ? d : 'Timeout') + ')');
+//           self.emit('err', 'CIPSERVER failed (' + (d ? d : 'Timeout') + ')');
 //         }
 //       });
 //       return MAXSOCKETS;
@@ -40,12 +38,12 @@
 //       sockData[sckt] = '';
 //       at.cmd(
 //         'AT+CIPSTART=' +
-//           sckt +
-//           ',"TCP",' +
-//           JSON.stringify(host) +
-//           ',' +
-//           port +
-//           '\r\n',
+//         sckt +
+//         ',"TCP",' +
+//         JSON.stringify(host) +
+//         ',' +
+//         port +
+//         '\r\n',
 //         10000,
 //         function cb(d) {
 //           if (d === sckt + ',CONNECT') {
@@ -53,7 +51,7 @@
 //             return cb;
 //           }
 //           if (d === 'OK') {
-//             at.registerLine(sckt + ',CLOSED', function() {
+//             at.registerLine(sckt + ',CLOSED', function () {
 //               at.unregisterLine(sckt + ',CLOSED');
 //               socks[sckt] = undefined;
 //             });
@@ -68,9 +66,9 @@
 //       );
 //     }
 //     return sckt;
-//   }
-//
-//   close(sckt: number): void {
+//   },
+//   /* Close the socket. returns nothing */
+//   close: function (sckt) {
 //     if (socks[sckt] === 'Wait') {
 //       socks[sckt] = 'WaitClose';
 //     } else if (socks[sckt] !== undefined) {
@@ -78,16 +76,16 @@
 //       // we need to a different command if we're closing a server
 //       at.cmd(
 //         (sckt === MAXSOCKETS ? 'AT+CIPSERVER=0' : 'AT+CIPCLOSE=' + sckt) +
-//           '\r\n',
+//         '\r\n',
 //         1000,
-//         function() {
+//         function () {
 //           socks[sckt] = undefined;
 //         }
 //       );
 //     }
-//   }
-//
-//   accept(): number {
+//   },
+//   /* Accept the connection on the server socket. Returns socket number or -1 if no connection */
+//   accept: function () {
 //     for (var i = 0; i < MAXSOCKETS; i++) {
 //       if (sockData[i] && socks[i] === undefined) {
 //         socks[i] = true;
@@ -95,9 +93,10 @@
 //       }
 //     }
 //     return -1;
-//   }
-//
-//   recv(sckt: number, maxLen: number) {
+//   },
+//   /* Receive data. Returns a string (even if empty).
+//   If non-string returned, socket is then closed */
+//   recv: function (sckt, maxLen) {
 //     if (at.isBusy() || socks[sckt] === 'Wait') {
 //       return '';
 //     }
@@ -116,9 +115,10 @@
 //       return -1; // close it
 //     }
 //     return '';
-//   }
-//
-//   send(sckt, data): number {
+//   },
+//   /* Send data. Returns the number of bytes sent - 0 is ok.
+//   Less than 0  */
+//   send: function (sckt, data) {
 //     if (at.isBusy() || socks[sckt] === 'Wait') {
 //       return 0;
 //     }
@@ -129,7 +129,7 @@
 //     var cmd = 'AT+CIPSEND=' + sckt + ',' + data.length + '\r\n';
 //     at.cmd(cmd, 10000, function cb(d) {
 //       if (d === 'OK') {
-//         at.register('> ', function() {
+//         at.register('> ', function () {
 //           at.unregister('> ');
 //           at.write(data);
 //           return '';
@@ -153,51 +153,59 @@
 //     socks[sckt] = 'Wait'; // wait for data to be sent
 //     return data.length;
 //   }
-// }
-//
-// var netCallbacks = {
-//   /* Send data. Returns the number of bytes sent - 0 is ok.
-//   Less than 0  */
-//
 // };
 //
-// // Handle +IPD input data from ESP8266
-// function ipdHandler(line) {
-//   var colon = line.indexOf(':');
-//   if (colon < 0) {
-//     return line; // not enough data here at the moment
-//   }
-//   var parms = line.substring(5, colon).split(',');
-//   parms[1] = 0 | parms[1];
-//   var len = line.length - (colon + 1);
-//   if (len >= parms[1]) {
-//     // we have everything
-//     sockData[parms[0]] += line.substr(colon + 1, parms[1]);
-//     return line.substr(colon + parms[1] + 1); // return anything else
-//   } else {
-//     // still some to get
-//     sockData[parms[0]] += line.substr(colon + 1, len);
-//     return '+IPD,' + parms[0] + ',' + (parms[1] - len) + ':'; // return IPD so we get called next time
-//   }
-// }
+// export class Wifi extends events.EventEmitter {
 //
-// var ESP8266 = {
-//   ipdHandler: ipdHandler,
-//   debug: function() {
+//   at;
+//
+//   constructor (usart: Serial = Serial3, connectedCallback) {
+//     super();
+//     usart.setup(115200, {});
+//
+//     this.at = require('AT').connect(usart);
+//     require('NetworkJS').create(netCallbacks);
+//
+//     netCallbacks.on('err', function (e) {
+//       this.emit('err', e);
+//     });
+//
+//     this.at.register('+IPD', this.ipdHandler);
+//     this.reset(connectedCallback);
+//   }
+//
+//   ipdHandler(line) {
+//     const colon = line.indexOf(':');
+//     if (colon < 0) {
+//       return line;
+//     }
+//     const parms = line.substring(5, colon).split(',');
+//     parms[1] = 0 | parms[1];
+//     const len = line.length - (colon + 1);
+//     if (len >= parms[1]) {
+//       sockData[parms[0]] += line.substr(colon + 1, parms[1]);
+//       return line.substr(+colon + +parms[1] + 1);
+//     } else {
+//       sockData[parms[0]] += line.substr(colon + 1, len);
+//       return '+IPD,' + parms[0] + ',' + (parms[1] - len) + ':';
+//     }
+//   }
+//
+//   debug() {
 //     return {
 //       socks: socks,
 //       sockData: sockData
 //     };
-//   },
-//   // initialise the ESP8266
-//   init: function(callback) {
-//     at.cmd('ATE0\r\n', 1000, function cb(d) {
+//   }
+//
+//   init(callback) {
+//     this.at.cmd('ATE0\r\n', 1000, function cb(d) {
 //       // turn off echo
 //       if (d === 'ATE0') {
 //         return cb;
 //       }
 //       if (d === 'OK') {
-//         at.cmd('AT+CIPMUX=1\r\n', 1000, function(d) {
+//         at.cmd('AT+CIPMUX=1\r\n', 1000, function (d) {
 //           // turn on multiple sockets
 //           if (d !== 'OK') {
 //             callback('CIPMUX failed: ' + (d ? d : 'Timeout'));
@@ -209,18 +217,19 @@
 //         callback('ATE0 failed: ' + (d ? d : 'Timeout'));
 //       }
 //     });
-//   },
-//   reset: function(callback) {
+//   }
+//
+//   reset (callback) {
 //     at.cmd('\r\nAT+RST\r\n', 10000, function cb(d) {
 //       // console.log('>>>>>'+JSON.stringify(d));
 //       // 'ready' for 0.25, 'Ready.' for 0.50
 //       if (d === 'ready' || d === 'Ready.') {
-//         setTimeout(function() {
-//           ESP8266.init(callback);
+//         setTimeout(function () {
+//           this.init(callback);
 //         }, 1000);
 //       } else if (d === 'jump to run user1 @ 1000') {
-//         setTimeout(function() {
-//           ESP8266.init(callback);
+//         setTimeout(function () {
+//           this.init(callback);
 //         }, 5000);
 //       } else {
 //         if (d === undefined) {
@@ -230,24 +239,26 @@
 //         }
 //       }
 //     });
-//   },
-//   getVersion: function(callback) {
-//     at.cmd('AT+GMR\r\n', 1000, function(d) {
+//   }
+//
+//   getVersion(callback) {
+//     at.cmd('AT+GMR\r\n', 1000, (d) => {
 //       // works ok, but we could get more data
 //       callback(null, d);
 //     });
-//   },
-//   connect: function(ssid, key, callback) {
-//     at.cmd('AT+CWMODE=1\r\n', 1000, function(cwm) {
+//   }
+//
+//   connect (ssid, key, callback) {
+//     at.cmd('AT+CWMODE=1\r\n', 1000, function (cwm) {
 //       if (cwm !== 'no change' && cwm !== 'OK') {
 //         callback('CWMODE failed: ' + (cwm ? cwm : 'Timeout'));
 //       } else {
 //         at.cmd(
 //           'AT+CWJAP=' +
-//             JSON.stringify(ssid) +
-//             ',' +
-//             JSON.stringify(key) +
-//             '\r\n',
+//           JSON.stringify(ssid) +
+//           ',' +
+//           JSON.stringify(key) +
+//           '\r\n',
 //           20000,
 //           function cb(d) {
 //             if (
@@ -274,14 +285,15 @@
 //         );
 //       }
 //     });
-//   },
-//   getAPs: function(callback) {
+//   }
+//
+//   getAPs (callback) {
 //     var aps = [];
 //     at.cmdReg(
 //       'AT+CWLAP\r\n',
 //       5000,
 //       '+CWLAP:',
-//       function(d) {
+//       function (d) {
 //         var ap = d.slice(8, -1).split(',');
 //         aps.push({
 //           ssid: JSON.parse(ap[1]),
@@ -290,27 +302,28 @@
 //           mac: JSON.parse(ap[3])
 //         });
 //       },
-//       function() {
+//       function () {
 //         callback(null, aps);
 //       }
 //     );
-//   },
-//   getConnectedAP: function(callback) {
+//   }
+//   getConnectedAP (callback) {
 //     var con;
 //     at.cmdReg(
 //       'AT+CWJAP?\r\n',
 //       1000,
 //       '+CWJAP:',
-//       function(d) {
+//       function (d) {
 //         con = JSON.parse(d.slice(7));
 //       },
-//       function() {
+//       function () {
 //         callback(null, con);
 //       }
 //     );
-//   },
-//   createAP: function(ssid, key, channel, enc, callback) {
-//     at.cmd('AT+CWMODE=2\r\n', 1000, function(cwm) {
+//   }
+//
+//   createAP (ssid, key, channel, enc, callback) {
+//     at.cmd('AT+CWMODE=2\r\n', 1000, function (cwm) {
 //       if (cwm !== 'no change' && cwm !== 'OK' && cwm !== 'WIFI DISCONNECT') {
 //         callback('CWMODE failed: ' + (cwm ? cwm : 'Timeout'));
 //       }
@@ -320,16 +333,16 @@
 //       } else {
 //         at.cmd(
 //           'AT+CWSAP=' +
-//             JSON.stringify(ssid) +
-//             ',' +
-//             JSON.stringify(key) +
-//             ',' +
-//             channel +
-//             ',' +
-//             encn +
-//             '\r\n',
+//           JSON.stringify(ssid) +
+//           ',' +
+//           JSON.stringify(key) +
+//           ',' +
+//           channel +
+//           ',' +
+//           encn +
+//           '\r\n',
 //           5000,
-//           function(cwm) {
+//           function (cwm) {
 //             if (cwm !== 'OK') {
 //               callback('CWSAP failed: ' + (cwm ? cwm : 'Timeout'));
 //             } else {
@@ -339,33 +352,30 @@
 //         );
 //       }
 //     });
-//   },
-//   getConnectedDevices: function(callback) {
-//     var devs = [];
+//   }
+//   getConnectedDevices (callback) {
+//     const devs = [];
 //     this.at.cmd('AT+CWLIF\r\n', 1000, function r(d) {
 //       if (d === 'OK') {
 //         callback(null, devs);
 //       } else if (d === undefined || d === 'ERROR') {
 //         callback('Error');
 //       } else {
-//         var e = d.split(',');
-//         devs.push({ ip: e[0], mac: e[1] });
+//         const e = d.split(',');
+//         devs.push({ip: e[0], mac: e[1]});
 //         return r;
 //       }
 //     });
-//   },
-//   getIP: function(callback) {
-//     var ip;
-//     at.cmdReg(
-//       'AT+CIFSR\r\n',
-//       1000,
-//       '+CIFSR',
-//       function(d) {
+//   }
+//
+//   getIP (callback) {
+//     let ip;
+//     this.at.cmdReg('AT+CIFSR\r\n', 1000, '+CIFSR', (d) => {
 //         if (!ip && d.indexOf(',') >= 0) {
 //           ip = JSON.parse(d.slice(d.indexOf(',') + 1));
 //         }
 //       },
-//       function(d) {
+//       (d) => {
 //         if (d !== 'OK') {
 //           callback('CIFSR failed: ' + d);
 //         } else {
@@ -374,25 +384,5 @@
 //       }
 //     );
 //   }
-// };
 //
-// exports.setup = function(usart, connectedCallback) {
-//   if (typeof usart === 'function') {
-//     connectedCallback = usart;
-//     usart = PrimarySerial;
-//     usart.setup(115200);
-//   }
-//
-//   ESP8266.at = at = require('AT').connect(usart);
-//   require('NetworkJS').create(netCallbacks);
-//
-//   netCallbacks.on('err', function(e) {
-//     ESP8266.emit('err', e);
-//   });
-//
-//   at.register('+IPD', ipdHandler);
-//
-//   ESP8266.reset(connectedCallback);
-//
-//   return ESP8266;
-// };
+// }

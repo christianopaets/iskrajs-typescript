@@ -1,25 +1,34 @@
-// import * as wifi from '../../amperka/wifi.js';
+import {setup} from '../amperka-ts/network';
 
 export class WifiService {
 
-  private _ssid: string;
+  private _ssid: string = 'Wenor2_4';
 
-  private _password: string;
+  private _password: string = '02091988';
 
-  // private _wifi
+  private _wifi;
 
-  constructor(ssid: string, password: string) {
-    this._ssid = ssid;
-    this._password = password;
+  constructor() {
+    Serial3.setup(115200, {});
   }
 
-  // createConnection(): any {
-  //   const wifi1 = wifi.setup(err => {
-  //     wifi.connect(_SSID, _PASSWORD, connectErr => {
-  //       console.log('WiFi Connected');
-  //       startSensors();
-  //       startServer();
-  //     });
-  //   });
-  // }
+  connect(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this._wifi = setup(Serial3, (err) => {
+        if(err) {
+          reject(err);
+          return;
+        }
+        this._wifi.connect(this._ssid, this._password, (err) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+          print('Connected');
+          resolve();
+        });
+      });
+    });
+  }
+
 }

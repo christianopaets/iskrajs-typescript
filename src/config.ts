@@ -1,5 +1,6 @@
 export const config = {
-  thermometerPin: A3,
-  lightSensorPin: A1,
-  led: P2
+  thermometerPin: null,
+  lightSensorPin: null,
+  led: null,
+  openWeatherApiKey: '991a41822908a79ca23f945e7fc9d258'
 };

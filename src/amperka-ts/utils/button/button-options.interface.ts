@@ -1,4 +1,4 @@
-import {TNormalSignal} from '@amperka/utils/button/normal-signal.enum';
+import {TNormalSignal} from './normal-signal.enum';
 
 
 export interface IButtonOptions {

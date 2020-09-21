@@ -1,10 +1,8 @@
-import { THttpMethod } from '@enums/http-method.enum';
-import * as http from 'http';
+import { THttpMethod } from '../enums/http-method.enum';
+import http from 'http';
 
 export class HttpService {
   private readonly _host: string = 'smart-home-back.herokuapp.com';
-
-  private _http = http;
 
   private _createOptions(path: string, method: THttpMethod, data: string): any {
     return {
@@ -23,9 +21,19 @@ export class HttpService {
     const options = this._createOptions(url, THttpMethod.Post, JSON.stringify(data));
 
     return new Promise((resolve: any, reject: any) => {
-      const req = this._http.request(options, (res: any) => resolve(res));
+      const req = http.request(options, (res: any) => resolve(res));
       req.on('error', (error: any) => reject(error));
     });
-    
+  }
+
+  get<Response = any>(url: string): Promise<object> {
+    return new Promise<object>(((resolve, reject) => {
+      http.get(url, res => {
+        let data = '';
+        res.on('data', chunk => data += chunk);
+        res.on('end', () => resolve(JSON.parse(data)))
+        res.on('error', err => reject(err));
+      });
+    }));
   }
 }

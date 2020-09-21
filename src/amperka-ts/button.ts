@@ -1,8 +1,8 @@
 import isUndefined from 'lodash/isUndefined';
-import {IButtonOptions} from '@amperka/utils/button/button-options.interface';
-import {ButtonEvents} from '@amperka/utils/button/button-events';
-import {TNormalSignal} from '@amperka/utils/button/normal-signal.enum';
-import {IOnChange} from '@amperka/utils/button/on-chage.interface';
+import {IButtonOptions} from './utils/button/button-options.interface';
+import {ButtonEvents} from './utils/button/button-events';
+import {TNormalSignal} from './utils/button/normal-signal.enum';
+import {IOnChange} from './utils/button/on-chage.interface';
 
 export class Button extends ButtonEvents {
   private readonly _pin: Pin;
