@@ -13,7 +13,7 @@
     "espruino": "espruino -w -p /dev/tty.usbmodem00000000001A1 -m ./dist/bundle.js"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "fecha": "^4.2.0",
     "light-http": "^1.4.10",
     "lodash-es": "^4.17.15",
